@@ -29,6 +29,18 @@ The original data set contains 116,064 rows and 161 columns. For my analysis I o
 ## Cleaing
  I drop columns that I do not need and keep only the games that have complete data. The data that is kept will be used for my hypothesis test and prediction model.
 
+ Below is the head of the cleaned dataframe.
+
+|          |   firstdragon |   firstherald |   firstbaron |   result |   elementaldrakes |    gspd  |   firsttower |   teamkills |
+|:---------|--------------:|--------------:|-------------:|---------:|------------------:|--------:|-------------:|------------:|
+| 190      |           1.0 |           1.0 |          1.0 |        1 |               2.0 |  0.166  |          1.0 |          20 |
+| 191      |           0.0 |           0.0 |          0.0 |        0 |               1.0 | -0.166  |          0.0 |           7 |
+| 202      |           0.0 |           0.0 |          0.0 |        1 |               2.0 | -0.0045 |          0.0 |          31 |
+| 203      |           1.0 |           1.0 |          1.0 |        0 |               3.0 |  0.0045 |          1.0 |          20 |
+| 214      |           1.0 |           1.0 |          1.0 |        1 |               2.0 |  0.0858 |          0.0 |          24 |
+
+
+
  ### Univariate Analysis
  Here I perform a univariate analysis to see the distribution of dragons taken per game.
 
