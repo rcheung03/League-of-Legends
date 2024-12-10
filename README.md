@@ -23,3 +23,20 @@ The original data set contains 116,064 rows and 161 columns. For my analysis I o
 - `teamkills`: This column indicates the total number of kills a team obtained during the match
 
 - `gspd`: gspd (gold spent percent difference) is a measure of economic advantage (gold) over the enemy team
+
+# Data Cleaning and Exploratory Data Analysis
+
+## Cleaing
+ I drop columns that I do not need and keep only the games that have complete data. The data that is kept will be used for my hypothesis test and prediction model.
+
+ ### Univariate Analysis
+ Here I perform a univariate analysis to see the distribution of dragons taken per game.
+
+ <iframe
+  src="assets/drag_distribution.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+This histogram shows that the most common outcome is obtaining anywhere from 2 to 3 dragons per match. The right-skewed distributions suggests that it is possible, but rare to teams to get 4 or more dragons. One possible reason could be that a team that has secured multiple dragons is ahead enough to win before getting another.
