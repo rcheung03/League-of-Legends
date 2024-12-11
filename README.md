@@ -123,3 +123,35 @@ Here is the histogram with the distribution of the test statistic during the hyp
 Using the resulting P-value, 0.00099, I reject the null hypothesis. This suggests that the odds of winning after securing the first dragon is greater than a coinflip (50/50). Furthermore, the results suggest that a team that secures the first dragon will win 56.77% of the time.
 
 ## Framing a Prediction Problem
+
+In previous sections, I found that first objectives like baron and dragon can significantly impact the result of the game. Is it possible to predict whether a team will win or lose based on the first objectives taken by the team?
+
+To answer this question I will use logistic regression since it is a binary classification problem. The response variable is result.
+
+I selected a few relevant features for prediction, including both binary features (such as 'firstdragon', 'firstherald') and numerical features (such as 'teamkills' and 'gspd'). For preprocessing, I apply StandardScaler to the numerical features, while the binary features are passed through without transformation.
+
+I evaluate the model using accuracy, as it gives a simple and straightforward measure of how many predictions the model got correct. This metric is chosen because of the binary nature of the classification task and the balanced nature of the dataset (assuming equal class distribution).
+
+## Baseline Model
+
+For my baseline model, I built a binary classificaiton model using logistic regression. It predicts the outcome of the game given certain features. For **quantitative** features, I used `teamkills` and `GSPD`. These two features were standardized using StandardScaler. For **categorical** features, I used `firstdragon` and `firstherald`. Since they were already in binary form, enconding was not needed.
+
+Both the training accuracy and testing accuracy are about 90%, meaning that the model can predict 90% of the data. This suggests that the model has good performance since it has high accuracy on training and testing sets.
+
+## Final Model
+
+In the final model, I added two more first objectives: `firstbaron` and `firsttower`. They are both categorical. I decided to add `firstbaron` because baron grants major buffs that allow the a team to push towards the enemy base. I added `firsttower` because it allows the team that secures it to have more freedom in the map and extra gold. Both of these seem to impact the result of the game.
+
+The final model is also binary classification model that uses logistic regression. No encoding was done to the new features since they are both categorical. For hyperparameter tuning, I focused on the regularization strength (C) and solver type. I tested C values from 0.01 to 100 and tried different solvers. Using grid search, I found the best C value to be 1.0 and the optimal solver to be 'liblinear'. However, the testing and training accuracy of about 90% shows that the final model did not improve from the baseline model.
+
+## Fairness Analysis
+
+
+For my fairness analysis, I chose early objectives (firstdragon, firstherald) vs late objectives (firstbaron, firsttower). These groups were chosen because early objectives can influence match outcomes, and I want to ensure the model predicts both well.
+
+My evaluation metric is precision, as it measures how well the model identifies winning teams. I used a permutation test to compare precision between the two groups.
+
+**Null Hypothesis**: The model's precision for early and late objectives is the same.
+**Alternative Hypothesis**: The precision differs between early and late objectives.
+
+With a significance level of 0.05 and 10,000 trials, the observed precision difference was 0.0012, and the p-value was 0.87. Since the p-value is above 0.05, I fail to reject the null hypothesis, concluding that the model performs similarly for both groups.
