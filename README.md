@@ -43,7 +43,7 @@ The original data set contains 116,064 rows and 161 columns. For my analysis I o
 
 
 
- ### Univariate Analysis
+### Univariate Analysis
  
  Here I perform a univariate analysis to see the distribution of dragons taken per game.
 
