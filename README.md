@@ -6,7 +6,7 @@ By: Ryan Cheung
 ## Introduction
 For this project, I used analyzed League of Legends games using a data set from Oracle's Elixir. This data set encapsulates professional match throughout 2024.
 
-Objectives in League of Legends, are key strategic points on the map that allow teams that secure them to gain an advantage. Some examples of objectives are the Rift Herald and various Dragons that spawn during the game. The Rift Herald allows the team that defeats it to use it against an enemy turret, assisting with map control.
+Objectives in League of Legends are key strategic points on the map that allow teams that secure them to gain an advantage. Some examples of objectives are the Rift Herald and various Dragons that spawn during the game. The Rift Herald allows the team that defeats it to use it against an enemy turret, assisting with map control.
 
 I want to specifically focus on the impact of securing the first objectives in a game. Does gaining control of the first objectives give one team a decisive advantage? Using this data set, I will find out if there is such impact and build a predictive model that gives the winning team based on these objectives.
 
@@ -54,12 +54,12 @@ The original data set contains 116,064 rows and 161 columns. For my analysis I o
   frameborder="0"
 ></iframe>
 
-This histogram shows that the most common outcome is obtaining anywhere from 2 to 3 dragons per match. The right-skewed distributions suggests that it is possible, but rare to teams to get 4 or more dragons. One possible reason could be that a team that has secured multiple dragons is ahead enough to win before getting another.
+This histogram shows that the most common outcome is obtaining anywhere from 2 to 3 dragons per match. The right-skewed distributions suggests that it is possible, but rare for teams to get 4 or more dragons. One possible reason could be that a team that has secured multiple dragons is ahead enough to win before getting another.
 
 
 ### Bivariate Analysis
 
-Here I performed a bivariate analysis on first baron and result statistics in the dataset.
+Here I performed a bivariate analysis on `firstbaron` and `result` statistics in the dataset.
 
  <iframe
   src="assets/first_baron_wr.html"
@@ -68,7 +68,7 @@ Here I performed a bivariate analysis on first baron and result statistics in th
   frameborder="0"
 ></iframe>
 
-This pie chart shows the distribution in which teams win after securing the first baron. The visualization helps illustrate how securing the first baron correlates with the game outcome. Here you can see that about 84% of teams that secure the first baron end up winning the game, hilighting the significance of securing the first baron.
+This pie chart shows the distribution in which teams win after securing the `firstbaron`. The visualization helps illustrate how securing the `firstbaron` correlates with the game outcome. Here you can see that about 84% of teams that secure the `firstbaron` end up winning the game, hilighting the significance of securing the `firstbaron`.
 
 ### Interesting Aggregates
 
@@ -77,7 +77,7 @@ This pie chart shows the distribution in which teams win after securing the firs
 |            0 |     1607 |       99864 |
 |            1 |     6673 |      152791 |
 
-I groupby first baron with the cleaned dataset and calculate the sum of the statistics. Here we can see the difference in wins and team kills based on first baron.
+I groupby `firstbaron` with the cleaned dataset and calculate the sum of the statistics. Here we can see the difference in `result` and `teamkills` based on `firstbaron`.
 
 ## Assessment of Missingness
 
@@ -87,7 +87,7 @@ I believe that the `ban` columns are most likely not missing at random (NMAR). T
 
 ### Missingness Dependency
 
-I test the missingness of firstdragon dependig on league and result.
+I test the missingness of `firstdragon` dependig on `league` and `result`.
 
 **Null Hypothesis**: Distribution of 'league' when 'firstdragon' is missing is the same as the distribution when it's not missing.
 
@@ -100,13 +100,13 @@ I test the missingness of firstdragon dependig on league and result.
   frameborder="0"
 ></iframe>
 
-The plot shows the result of a permutation test perfomed to analyze whether the missingness of `firstdragon` depends on the result. The large P-value of 0.99 suggests that `firstdragon`'s missingness does not depend on the game result.
+The plot shows the result of a permutation test perfomed to analyze whether the missingness of `firstdragon` depends on `league`. The large P-value of 0.99 suggests that `firstdragon`'s missingness does not depend on `league`
 
 ## Hypothesis Testing
 
-**Null Hypothesis**: Null Hypothesis: Win rate with first dragon = 0.5 (50%)
+**Null Hypothesis**: Win rate with first dragon = 0.5 (50%)
 
-**Alternative Hypothesis**: Alternative Hypothesis: Win rate with first dragon > 0.5 (50%)
+**Alternative Hypothesis**: Win rate with first dragon > 0.5 (50%)
 
 **Test Statistic**: Difference between observed win rate and 0.5 (50%)
 
@@ -121,17 +121,17 @@ Here is the histogram with the distribution of the test statistic during the hyp
   frameborder="0"
 ></iframe>
 
-Using the resulting P-value, 0.00099, I reject the null hypothesis. This suggests that the odds of winning after securing the first dragon is greater than a coinflip (50/50). Furthermore, the results suggest that a team that secures the first dragon will win 56.77% of the time.
+Using the resulting p-value, 0.00099, I reject the null hypothesis. This suggests that the odds of winning after securing the first dragon is greater than a coinflip (50/50) and is significant. Furthermore, the results suggest that a team that secures the first dragon will win 56.77% of the time.
 
 ## Framing a Prediction Problem
 
-In previous sections, I found that first objectives like baron and dragon can significantly impact the result of the game. Is it possible to predict whether a team will win or lose based on the first objectives taken by the team?
+In previous sections, I found that first objectives like baron and dragon can significantly impact the result of the game. Is it possible to predict whether a team will win or lose mainly based on first objectives taken by the team?
 
-To answer this question I will use logistic regression since it is a binary classification problem. The response variable is result.
+To answer this question I will use logistic regression since it is a binary classification problem. The response variable is `result`.
 
-I selected a few relevant features for prediction, including both binary features (such as 'firstdragon', 'firstherald') and numerical features (such as 'teamkills' and 'gspd'). For preprocessing, I apply StandardScaler to the numerical features, while the binary features are passed through without transformation.
+I selected a few relevant features for prediction, including both binary features (such as `firstdragon`, `firstherald`) and numerical features (such as `teamkills` and `gspd`). For preprocessing, I apply StandardScaler to the numerical features, while the binary features are passed through without transformation.
 
-I evaluate the model using accuracy, as it gives a simple and straightforward measure of how many predictions the model got correct. This metric is chosen because of the binary nature of the classification task and the balanced nature of the dataset (assuming equal class distribution).
+I evaluate the model using accuracy, as it gives a simple and straightforward measure of how many predictions the model got correct. This metric is chosen because of the binary nature of the classification task and the balanced nature of the dataset.
 
 ## Baseline Model
 
@@ -148,11 +148,12 @@ The final model is also binary classification model that uses logistic regressio
 ## Fairness Analysis
 
 
-For my fairness analysis, I chose early objectives (firstdragon, firstherald) vs late objectives (firstbaron, firsttower). These groups were chosen because early objectives can influence match outcomes, and I want to ensure the model predicts both well.
+For my fairness analysis, I chose early objectives (`firstdragon`, `firstherald`) vs late objectives (`firstbaron`, `firsttower`). These groups were chosen because early objectives can influence match outcomes, and I want to ensure the model predicts both well.
 
 My evaluation metric is precision, as it measures how well the model identifies winning teams. I used a permutation test to compare precision between the two groups.
 
 **Null Hypothesis**: The model's precision for early and late objectives is the same.
+
 **Alternative Hypothesis**: The precision differs between early and late objectives.
 
-With a significance level of 0.05 and 10,000 trials, the observed precision difference was 0.0012, and the p-value was 0.87. Since the p-value is above 0.05, I fail to reject the null hypothesis, concluding that the model performs similarly for both groups.
+With a significance level of 5% and 10,000 trials, the observed precision difference was 0.0012, and the p-value was 0.87. Since the p-value is above 0.05, I fail to reject the null hypothesis, concluding that the model performs similarly for both groups.
