@@ -26,7 +26,7 @@ The original data set contains 116,064 rows and 161 columns. For my analysis I o
 
 # Data Cleaning and Exploratory Data Analysis
 
-## Cleaing
+## Cleaning
  I drop columns that I do not need and keep only the games that have complete data. The data that is kept will be used for my hypothesis test and prediction model.
 
  Below is the head of the cleaned dataframe.
@@ -38,6 +38,7 @@ The original data set contains 116,064 rows and 161 columns. For my analysis I o
 | 202      |           0.0 |           0.0 |          0.0 |        1 |               2.0 | -0.0045 |          0.0 |          31 |
 | 203      |           1.0 |           1.0 |          1.0 |        0 |               3.0 |  0.0045 |          1.0 |          20 |
 | 214      |           1.0 |           1.0 |          1.0 |        1 |               2.0 |  0.0858 |          0.0 |          24 |
+
 
 
 
@@ -93,7 +94,7 @@ I test the missingness of firstdragon dependig on league and result.
 **Alternative Hypothesis**: Distribution of 'league' when 'firstdragon' is missing is NOT the same as the distribution when it's not missing.
 
  <iframe
-  src="assets/missingness.html"
+  src="assets/misingness.html"
   width="800"
   height="600"
   frameborder="0"
